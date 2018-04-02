@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TVTrack</string>
+
+    <!-- login screen strings -->
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="button_login">Log In</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- register screen strings -->
+    <string name="firstname_hint">First Name</string>
+    <string name="lastname_hint">Last Name</string>
+    <string name="button_register">Register</string>
+
+    <!-- sign up screen strings -->
+    <string name="signup_textview">Sign Up</string>
+    <string name="title_activity_test">test</string>
+    <string name="title_activity_tvlist">TVListActivity</string>
+</resources>
