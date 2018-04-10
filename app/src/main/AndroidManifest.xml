@@ -12,23 +12,21 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/TVTrack.Theme">
+        android:supportsRtl="true">
         <activity
             android:name=".LoginScreenActivity"
-            android:theme="@style/TVTrack.Theme">
+            android:theme="@style/Theme.TVTrack">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUpActivity"
-            android:parentActivityName=".LoginScreenActivity"
-            android:theme="@style/TVTrack.Theme" />
-        <activity
             android:name=".TVListActivity"
-            android:label="@string/title_activity_tvlist" />
+            android:theme="@style/Theme.TVTrack" />
+        <activity android:name=".AddTVActivity"
+            android:theme="@style/Theme.TVTrack" />
     </application>
 
 </manifest>
