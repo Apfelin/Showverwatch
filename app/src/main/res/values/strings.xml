@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">TVTrack</string>
-
     <!-- login screen strings -->
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
@@ -10,4 +8,8 @@
     <!-- tvlist strings -->
     <string name="tvlist_activity_name">TVListActivity</string>
     <string name="imageview_content_desc">TV show image</string>
+
+    <!-- toolbar string -->
+    <string name="app_name">TVTrack</string>
+    <string name="search_toolbtn">Search...</string>
 </resources>

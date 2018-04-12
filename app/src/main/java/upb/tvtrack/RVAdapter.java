@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> {
 
-    List<Show> tvshows;
+    private List<Show> tvshows;
 
     public static class TVShowViewHolder extends RecyclerView.ViewHolder {
 
