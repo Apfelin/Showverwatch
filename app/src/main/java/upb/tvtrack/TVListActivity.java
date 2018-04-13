@@ -22,8 +22,6 @@ public class TVListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tvlist);
 
-        Intent intent = getIntent();
-
         Toolbar toolbar = findViewById(R.id.tvlist_toolbar);
         setSupportActionBar(toolbar);
 

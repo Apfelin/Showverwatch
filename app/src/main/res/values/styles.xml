@@ -11,8 +11,10 @@
         <item name="android:textColorPrimary">@color/colorBlack</item>
         <item name="android:textColorPrimaryInverse">@color/colorWhite</item>
         <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="android:textColorSecondaryInverse">@color/colorGrey</item>
-        <item name="android:textColorSecondary">@color/colorGrey</item>
+        <item name="android:textColorSecondaryInverse">@color/colorWhite</item>
+        <item name="android:textColorSecondary">@color/colorWhite</item>
     </style>
 
 </resources>
+
+<!-- TODO: https://developer.android.com/guide/topics/ui/look-and-feel/themes.html#ApplyATheme -->

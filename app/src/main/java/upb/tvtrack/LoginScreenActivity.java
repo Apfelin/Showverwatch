@@ -14,6 +14,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
         Toolbar toolbar = findViewById(R.id.signup_toolbar);
         setSupportActionBar(toolbar);
     }
