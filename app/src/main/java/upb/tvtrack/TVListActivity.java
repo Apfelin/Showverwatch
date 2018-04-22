@@ -11,10 +11,12 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.movito.themoviedbapi.model.tv.TvSeries;
+
 public class TVListActivity extends AppCompatActivity {
 
     private RecyclerView rv;
-    private List<Show> tvshows = new ArrayList<>();
+    private List<TvSeries> tvshows = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class TVListActivity extends AppCompatActivity {
 
     private void initializeIfNoShow(){
 
-        tvshows.add(new Show("No TV show added", "Add a show!", R.drawable.ic_add_to_queue_black_48dp));
+        TvSeries emptyList = new TvSeries();
+        emptyList.setName("Search for TV shows!");
+        emptyList.setOverview("Use the search button above to search for your favourite TV shows.");
+
+        tvshows.add(emptyList);
     }
 }

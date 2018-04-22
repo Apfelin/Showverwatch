@@ -10,6 +10,6 @@
     <string name="imageview_content_desc">TV show image</string>
 
     <!-- toolbar string -->
-    <string name="app_name">TVTrack</string>
-    <string name="search_toolbtn">Search...</string>
+    <string name="app_name">Showverwatch</string>
+    <string name="search_toolbtn">Search TV shows...</string>
 </resources>

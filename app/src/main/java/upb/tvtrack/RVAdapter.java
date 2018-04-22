@@ -1,5 +1,6 @@
 package upb.tvtrack;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +11,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.model.config.TmdbConfiguration;
+import info.movito.themoviedbapi.model.tv.TvSeries;
+
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> {
 
-    private List<Show> tvshows;
+    private List<TvSeries> tvshows;
 
     public static class TVShowViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,7 +37,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
         }
     }
 
-    RVAdapter(List<Show> tvshows) {
+    RVAdapter(List<TvSeries> tvshows) {
 
         this.tvshows = tvshows;
     }
@@ -52,11 +57,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(TVShowViewHolder tvShowViewHolder, int i) {
+    public void onBindViewHolder(final TVShowViewHolder tvShowViewHolder, int i) {
 
-        tvShowViewHolder.showName.setText(tvshows.get(i).title);
-        tvShowViewHolder.showDesc.setText(tvshows.get(i).description);
-        tvShowViewHolder.showImage.setImageResource(tvshows.get(i).photoID);
+        tvShowViewHolder.showName.setText(tvshows.get(i).getName());
+        tvShowViewHolder.showDesc.setText(tvshows.get(i).getOverview());
+        ImageViewTask ivt = new ImageViewTask(tvShowViewHolder.showImage);
+        ivt.execute("http://image.tmdb.org/t/p/w342" + tvshows.get(i).getPosterPath());
     }
 
     @Override
