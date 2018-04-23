@@ -12,7 +12,9 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,11 @@ import info.movito.themoviedbapi.model.tv.TvSeries;
 
 public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asyncSearchResponse {
 
-    // https://developer.android.com/guide/topics/ui/dialogs.html#ProgressDialog
+    //https://gist.github.com/riyazMuhammad/1c7b1f9fa3065aa5a46f
+
     private RecyclerView rv_search;
     private List<TvSeries> search_shows = new ArrayList<>();
-
+    private RVAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,14 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv_search.setLayoutManager(llm);
 
-        RVAdapter adapter = new RVAdapter(search_shows);
+        adapter = new RVAdapter(search_shows, new RecyclerViewClickListener() {
+
+            @Override
+            public void onClick(View view, int i) {
+
+                Toast.makeText(view.getContext(), "Position " + i, Toast.LENGTH_SHORT).show();
+            }
+        });
         rv_search.setAdapter(adapter);
 
         handleSearchIntent(getIntent());
@@ -67,14 +77,13 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 
-        //change the text color for the search view
+        // change the text color for the search view
         EditText searchEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setTextColor(getResources().getColor(R.color.colorWhite));
         searchEditText.setHintTextColor(getResources().getColor(R.color.colorWhite));
 
-        // Assumes current activity is the searchable activity
+        // current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -106,7 +115,7 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             String query = intent.getStringExtra(SearchManager.QUERY);
-            TVSearchTask tvst = new TVSearchTask(this);
+            TVSearchTask tvst = new TVSearchTask(this, this);
             tvst.execute(query);
         }
     }
@@ -114,8 +123,7 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
     @Override
     public void searchFinish(List<TvSeries> _result_list) {
 
-        search_shows.clear();
-        search_shows.addAll(_result_list);
+        adapter.setData(_result_list);
     }
 
     private void initializeIfNoShow() {

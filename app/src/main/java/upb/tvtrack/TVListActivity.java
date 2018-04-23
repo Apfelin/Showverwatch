@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,13 @@ public class TVListActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
-        RVAdapter adapter = new RVAdapter(tvshows);
+        RVAdapter adapter = new RVAdapter(tvshows, new RecyclerViewClickListener() {
+            @Override
+            public void onClick(View view, int i) {
+
+                Toast.makeText(view.getContext(), "Position " + i, Toast.LENGTH_SHORT).show();
+            }
+        });
         rv.setAdapter(adapter);
 
         if(tvshows.isEmpty()) {
@@ -49,8 +56,8 @@ public class TVListActivity extends AppCompatActivity {
     private void initializeIfNoShow(){
 
         TvSeries emptyList = new TvSeries();
-        emptyList.setName("Search for TV shows!");
-        emptyList.setOverview("Use the search button above to search for your favourite TV shows.");
+        emptyList.setName("No TV shows added!");
+        emptyList.setOverview("Add a TV show to see it here.");
 
         tvshows.add(emptyList);
     }

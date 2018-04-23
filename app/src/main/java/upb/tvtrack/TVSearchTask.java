@@ -1,5 +1,7 @@
 package upb.tvtrack;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
@@ -19,11 +21,20 @@ public class TVSearchTask extends AsyncTask<String, Void, List<TvSeries>> {
     }
 
     private List<TvSeries> result_list = new ArrayList<>();
+    private ProgressDialog prgd;
     public asyncSearchResponse delegate;
 
-    public TVSearchTask(asyncSearchResponse _delegate) {
+    public TVSearchTask(asyncSearchResponse _delegate, Context _context) {
 
         this.delegate = _delegate;
+        this.prgd = new ProgressDialog(_context);
+    }
+
+    @Override
+    protected void onPreExecute() {
+
+        prgd.setMessage("Loading search results...");
+        prgd.show();
     }
 
     @Override
@@ -44,6 +55,11 @@ public class TVSearchTask extends AsyncTask<String, Void, List<TvSeries>> {
 
     @Override
     protected void onPostExecute(List<TvSeries> _result_list) {
+
+        if (prgd.isShowing()) {
+
+            prgd.dismiss();
+        }
 
         delegate.searchFinish(_result_list);
     }
