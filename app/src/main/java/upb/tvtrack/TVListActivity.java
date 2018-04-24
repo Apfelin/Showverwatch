@@ -17,6 +17,8 @@ import info.movito.themoviedbapi.model.tv.TvSeries;
 
 public class TVListActivity extends AppCompatActivity implements AddToTVListTask.asyncAddResponse {
 
+    //TODO: sortare, notificare, salvare in format json
+
     private static final int ADD_REQUEST_CODE = 0;
 
     private List<TvSeries> tvshows = new ArrayList<>();
