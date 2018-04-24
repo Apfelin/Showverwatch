@@ -61,6 +61,36 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void addData(TvSeries _tvshow) {
+
+        if (isEmpty()) {
+
+            tvshows.clear();
+        }
+
+        tvshows.add(_tvshow);
+        notifyDataSetChanged();
+    }
+
+    public int getIdByIndex(int _i) {
+
+        return tvshows.get(_i).getId();
+    }
+
+    public boolean isEmpty() {
+
+        TvSeries empty = new TvSeries();
+        empty.setName("No TV shows added!");
+        empty.setOverview("Add a TV show to see it here.");
+
+        if (tvshows.get(0).equals(empty)) {
+
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView _recyclerView) {
 
@@ -81,7 +111,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
         _tvShowViewHolder.showName.setText(tvshows.get(_i).getName());
         _tvShowViewHolder.showDesc.setText(tvshows.get(_i).getOverview());
         ImageViewTask ivt = new ImageViewTask(_tvShowViewHolder.showImage);
-        ivt.execute("http://image.tmdb.org/t/p/w342" + tvshows.get(_i).getPosterPath());
+        ivt.execute("https://image.tmdb.org/t/p/w342/" + tvshows.get(_i).getPosterPath());
     }
 
     @Override

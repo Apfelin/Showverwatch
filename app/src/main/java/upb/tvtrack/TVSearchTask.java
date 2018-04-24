@@ -26,8 +26,8 @@ public class TVSearchTask extends AsyncTask<String, Void, List<TvSeries>> {
 
     public TVSearchTask(asyncSearchResponse _delegate, Context _context) {
 
-        this.delegate = _delegate;
-        this.prgd = new ProgressDialog(_context);
+        delegate = _delegate;
+        prgd = new ProgressDialog(_context);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TVSearchTask extends AsyncTask<String, Void, List<TvSeries>> {
     @Override
     protected void onPostExecute(List<TvSeries> _result_list) {
 
-        if (prgd.isShowing()) {
+        if (prgd != null && prgd.isShowing()) {
 
             prgd.dismiss();
         }

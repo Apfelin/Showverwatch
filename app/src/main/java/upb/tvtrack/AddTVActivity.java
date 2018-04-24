@@ -25,9 +25,6 @@ import info.movito.themoviedbapi.model.tv.TvSeries;
 
 public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asyncSearchResponse {
 
-    //https://gist.github.com/riyazMuhammad/1c7b1f9fa3065aa5a46f
-
-    private RecyclerView rv_search;
     private List<TvSeries> search_shows = new ArrayList<>();
     private RVAdapter adapter;
 
@@ -45,7 +42,7 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        rv_search = findViewById(R.id.rv_searchresult);
+        RecyclerView rv_search = findViewById(R.id.rv_searchresult);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv_search.setLayoutManager(llm);
 
@@ -54,7 +51,10 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
             @Override
             public void onClick(View view, int i) {
 
-                Toast.makeText(view.getContext(), "Position " + i, Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("tvid", adapter.getIdByIndex(i));
+                setResult(RESULT_OK, returnIntent);
+                finish();
             }
         });
         rv_search.setAdapter(adapter);
@@ -63,7 +63,11 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
 
         if(search_shows.isEmpty()) {
 
-            initializeIfNoShow();
+            TvSeries emptyList = new TvSeries();
+            emptyList.setName("Search for TV shows!");
+            emptyList.setOverview("Use the search button above to search for your favourite TV shows.");
+
+            search_shows.add(emptyList);
         }
     }
 
@@ -124,14 +128,5 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
     public void searchFinish(List<TvSeries> _result_list) {
 
         adapter.setData(_result_list);
-    }
-
-    private void initializeIfNoShow() {
-
-        TvSeries emptyList = new TvSeries();
-        emptyList.setName("Search for TV shows!");
-        emptyList.setOverview("Use the search button above to search for your favourite TV shows.");
-
-        search_shows.add(emptyList);
     }
 }

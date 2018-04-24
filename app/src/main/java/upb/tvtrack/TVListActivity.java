@@ -1,5 +1,6 @@
 package upb.tvtrack;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +15,12 @@ import java.util.List;
 
 import info.movito.themoviedbapi.model.tv.TvSeries;
 
-public class TVListActivity extends AppCompatActivity {
+public class TVListActivity extends AppCompatActivity implements AddToTVListTask.asyncAddResponse {
 
-    private RecyclerView rv;
+    private static final int ADD_REQUEST_CODE = 0;
+
     private List<TvSeries> tvshows = new ArrayList<>();
+    private RVAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +31,11 @@ public class TVListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tvlist_toolbar);
         setSupportActionBar(toolbar);
 
-        rv = findViewById(R.id.rv_shows);
+        RecyclerView rv = findViewById(R.id.rv_shows);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
-        RVAdapter adapter = new RVAdapter(tvshows, new RecyclerViewClickListener() {
+        adapter = new RVAdapter(tvshows, new RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int i) {
 
@@ -43,22 +46,36 @@ public class TVListActivity extends AppCompatActivity {
 
         if(tvshows.isEmpty()) {
 
-            initializeIfNoShow();
+            TvSeries empty = new TvSeries();
+            empty.setName("No TV shows added!");
+            empty.setOverview("Add a TV show to see it here.");
+
+            tvshows.add(empty);
         }
     }
 
     public void addPress(View view) {
 
         Intent intent = new Intent(this, AddTVActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, ADD_REQUEST_CODE);
     }
 
-    private void initializeIfNoShow(){
+    @Override
+    protected void onActivityResult(int _requestCode, int _resultCode, Intent _intent) {
 
-        TvSeries emptyList = new TvSeries();
-        emptyList.setName("No TV shows added!");
-        emptyList.setOverview("Add a TV show to see it here.");
+        super.onActivityResult(_requestCode, _resultCode, _intent);
 
-        tvshows.add(emptyList);
+        if (_requestCode == ADD_REQUEST_CODE && _resultCode == RESULT_OK) {
+
+            int tvid = _intent.getIntExtra("tvid", -1);
+            AddToTVListTask attvlt = new AddToTVListTask(this);
+            attvlt.execute(tvid);
+        }
+    }
+
+    @Override
+    public void addFinish(TvSeries _tv_result) {
+
+        adapter.addData(_tv_result);
     }
 }

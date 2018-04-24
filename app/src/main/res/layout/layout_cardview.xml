@@ -40,7 +40,7 @@
             android:layout_below="@+id/show_name"
             android:textColor="@color/colorSubtitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:maxLines="3"
+            android:maxLines="6"
             android:ellipsize="end"/>
 
     </RelativeLayout>
