@@ -52,8 +52,15 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
             public void onClick(View view, int i) {
 
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("tvid", adapter.getIdByIndex(i));
-                setResult(RESULT_OK, returnIntent);
+
+                if (adapter.isEmpty()) {
+
+                    setResult(RESULT_CANCELED);
+                } else {
+
+                    returnIntent.putExtra("tvid", adapter.getIdByIndex(i));
+                    setResult(RESULT_OK, returnIntent);
+                }
                 finish();
             }
         });

@@ -23,12 +23,10 @@ public class AddToTVListTask extends AsyncTask<Integer, Void, TvSeries> {
     @Override
     protected TvSeries doInBackground(Integer... _params) {
 
-        int id = _params[0].intValue();
+        int id = _params[0];
 
         TmdbTV tv = new TmdbApi("100493e87e727a4c9f510906380df77d").getTvSeries();
-        TvSeries tv_result = tv.getSeries(id, "en");
-
-        return tv_result;
+        return tv.getSeries(id, "en");
     }
 
     @Override

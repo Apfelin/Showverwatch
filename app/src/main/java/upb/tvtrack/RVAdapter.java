@@ -79,11 +79,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
 
     public boolean isEmpty() {
 
-        TvSeries empty = new TvSeries();
-        empty.setName("No TV shows added!");
-        empty.setOverview("Add a TV show to see it here.");
+        TvSeries emptyList = new TvSeries();
+        emptyList.setName("Search for TV shows!");
+        emptyList.setOverview("Use the search button above to search for your favourite TV shows.");
 
-        if (tvshows.get(0).equals(empty)) {
+        if (tvshows.get(0).equals(emptyList)) {
 
             return true;
         }
