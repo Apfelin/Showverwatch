@@ -1,6 +1,7 @@
 package upb.tvtrack;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbTV;

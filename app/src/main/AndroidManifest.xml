@@ -16,16 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".LoginScreenActivity"
-            android:theme="@style/Theme.TVTrack">
+            android:name=".TVListActivity"
+            android:theme="@style/Theme.TVTrack" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".TVListActivity"
-            android:theme="@style/Theme.TVTrack" />
         <activity
             android:name=".AddTVActivity"
             android:theme="@style/Theme.TVTrack"

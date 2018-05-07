@@ -1,6 +1,5 @@
 package upb.tvtrack;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,10 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.model.config.TmdbConfiguration;
 import info.movito.themoviedbapi.model.tv.TvSeries;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> {
@@ -77,7 +77,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
         return tvshows.get(_i).getId();
     }
 
+    public TvSeries getTvSeriesByIndex(int _i) {
+
+        return tvshows.get(_i);
+    }
+
     public boolean isEmpty() {
+
+        return tvshows.isEmpty();
+    }
+
+    public boolean isEmptyTVShow() {
 
         TvSeries emptyList = new TvSeries();
         emptyList.setName("Search for TV shows!");
@@ -89,6 +99,72 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TVShowViewHolder> 
         }
 
         return false;
+    }
+
+    public void sortName() {
+
+        TvSeries tmp;
+
+        for (int i = 0; i < tvshows.size()-1; i++) {
+
+            if (tvshows.get(i).getName().compareToIgnoreCase(tvshows.get(i+1).getName()) > 0) {
+
+                tmp = tvshows.get(i);
+                tvshows.set(i, tvshows.get(i+1));
+                tvshows.set(i+1, tmp);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void sortVoteAvg() {
+
+        TvSeries tmp;
+
+        for (int i = 0; i < tvshows.size()-1; i++) {
+
+            if (tvshows.get(i).getVoteAverage() < tvshows.get(i+1).getVoteAverage()) {
+
+                tmp = tvshows.get(i);
+                tvshows.set(i, tvshows.get(i+1));
+                tvshows.set(i+1, tmp);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void sortLastAir() {
+
+        TvSeries tmp;
+        String last_air1;
+        String last_air2;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (int i = 0; i < tvshows.size()-1; i++) {
+
+            last_air1 = tvshows.get(i).getLastAirDate();
+            last_air2 = tvshows.get(i+1).getLastAirDate();
+
+            try {
+
+                Date date1 = format.parse(last_air1);
+                Date date2 = format.parse(last_air2);
+
+                if (date1.getTime() > date2.getTime()) {
+
+                    tmp = tvshows.get(i);
+                    tvshows.set(i, tvshows.get(i+1));
+                    tvshows.set(i+1, tmp);
+                }
+            } catch (ParseException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     @Override

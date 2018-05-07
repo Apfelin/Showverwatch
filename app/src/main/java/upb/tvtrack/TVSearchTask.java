@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,6 @@ public class TVSearchTask extends AsyncTask<String, Void, List<TvSeries>> {
         void searchFinish(List<TvSeries> _result_list);
     }
 
-    private List<TvSeries> result_list = new ArrayList<>();
     private ProgressDialog prgd;
     public asyncSearchResponse delegate;
 
@@ -45,12 +45,7 @@ public class TVSearchTask extends AsyncTask<String, Void, List<TvSeries>> {
         TmdbSearch search = new TmdbApi("100493e87e727a4c9f510906380df77d").getSearch();
         TvResultsPage resultPage = search.searchTv(query, "en", 1);
 
-        for (int i = 0; i < resultPage.getTotalResults(); i++) {
-
-            result_list.add(resultPage.getResults().get(i));
-        }
-
-        return result_list;
+        return resultPage.getResults();
     }
 
     @Override

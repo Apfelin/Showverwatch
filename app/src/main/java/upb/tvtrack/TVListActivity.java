@@ -1,6 +1,6 @@
 package upb.tvtrack;
 
-import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,13 +26,10 @@ import info.movito.themoviedbapi.model.tv.TvSeries;
 
 public class TVListActivity extends AppCompatActivity implements AddToTVListTask.asyncAddResponse {
 
-    //TODO: sortare, notificare
-
     private static final int ADD_REQUEST_CODE = 0;
 
     private List<TvSeries> tvshows = new ArrayList<>();
     private RVAdapter adapter;
-    JSONArray jArr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,32 +48,68 @@ public class TVListActivity extends AppCompatActivity implements AddToTVListTask
             @Override
             public void onClick(View view, int i) {
 
-                Toast.makeText(view.getContext(), "Position " + i, Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getFragmentManager();
+                TVDetails tvDeets = TVDetails.newInstance(adapter.getIdByIndex(i));
+                tvDeets.show(fm, "tv_details");
             }
         });
         rv.setAdapter(adapter);
 
         SharedPreferences shPref = getPreferences(Context.MODE_PRIVATE);
-        String jStr = shPref.getString("json", null);
+        String jStr = shPref.getString("json_shows_id", null);
 
-        if (jStr == null) {
-
-            TvSeries empty = new TvSeries();
-            empty.setName("No TV shows added!");
-            empty.setOverview("Add a TV show to see it here.");
-
-            tvshows.add(empty);
-            adapter.setData(tvshows);
-        } else {
+        if (jStr != null) {
 
             try {
 
-                jArr = new JSONArray(jStr);
+                JSONArray jArr = new JSONArray(jStr);
+                JSONObject json = null;
+                for (int i = 0; i < jArr.length(); i++) {
+
+                    json = (JSONObject) jArr.get(i);
+                    AddToTVListTask attvlt = new AddToTVListTask(this);
+                    attvlt.execute(json.getInt("id"));
+                }
             } catch (JSONException e) {
 
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.tvlist_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_sortname:
+
+                adapter.sortName();
+                return true;
+
+            case R.id.action_sortvoteavg:
+
+                adapter.sortVoteAvg();
+                return true;
+
+            case R.id.action_sortlatest:
+
+                adapter.sortLastAir();
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override
@@ -81,46 +117,33 @@ public class TVListActivity extends AppCompatActivity implements AddToTVListTask
 
         super.onPause();
 
-        for (int i = 0; i < tvshows.size(); i++) {
+        if (!adapter.isEmpty()) {
 
-            jArr.put(makeJSONObject(tvshows.get(i)));
+            JSONArray jArr = new JSONArray();
+
+            for (int i = 0; i < adapter.getItemCount(); i++) {
+
+                JSONObject val = makeJSONObject(adapter.getTvSeriesByIndex(i));
+                jArr.put(val);
+            }
+
+            SharedPreferences shPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor shPrefEdit = shPref.edit();
+            shPrefEdit.putString("json_shows_id", jArr.toString());
+            shPrefEdit.apply();
+
+            // remove all shared preferences - DEBUG OPTION
+//            shPrefEdit.remove("json_shows_id").apply();
         }
-
-        SharedPreferences shPref = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor shPrefEdit = shPref.edit();
-        shPrefEdit.putString("json", jArr.toString());
-        shPrefEdit.apply();
     }
 
     @Override
     public void onResume() {
 
         super.onResume();
-
-        SharedPreferences shPref = getPreferences(Context.MODE_PRIVATE);
-        String jStr = shPref.getString("json", null);
-
-        if (jStr == null) {
-
-            TvSeries empty = new TvSeries();
-            empty.setName("No TV shows added!");
-            empty.setOverview("Add a TV show to see it here.");
-
-            tvshows.add(empty);
-            adapter.setData(tvshows);
-        } else {
-
-            try {
-
-                jArr = new JSONArray(jStr);
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
     }
 
-    public void addPress() {
+    public void addPress(View view) {
 
         Intent intent = new Intent(this, AddTVActivity.class);
         startActivityForResult(intent, ADD_REQUEST_CODE);
@@ -158,9 +181,6 @@ public class TVListActivity extends AppCompatActivity implements AddToTVListTask
         try {
 
             tv.put("id", _tv.getId());
-            tv.put("name", _tv.getName());
-            tv.put("overview", _tv.getOverview());
-            tv.put("poster_path", _tv.getPosterPath());
         } catch (JSONException e) {
 
             e.printStackTrace();

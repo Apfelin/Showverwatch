@@ -12,4 +12,10 @@
     <!-- toolbar string -->
     <string name="app_name">Showverwatch</string>
     <string name="search_toolbtn">Search TV shows...</string>
+    <string name="sort_name">Sort by name</string>
+    <string name="sort_vote_avg">Sort by rating</string>
+    <string name="sort_last_air">Sort by latest</string>
+
+    <!-- tv detail strings -->
+    <string name="rate_string">Rate the show!</string>
 </resources>

@@ -53,7 +53,7 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
 
                 Intent returnIntent = new Intent();
 
-                if (adapter.isEmpty()) {
+                if (adapter.isEmptyTVShow()) {
 
                     setResult(RESULT_CANCELED);
                 } else {
@@ -134,6 +134,12 @@ public class AddTVActivity extends AppCompatActivity implements TVSearchTask.asy
     @Override
     public void searchFinish(List<TvSeries> _result_list) {
 
-        adapter.setData(_result_list);
+        if (_result_list != null) {
+
+            adapter.setData(_result_list);
+        } else {
+
+            Toast.makeText(this,"No TV show found!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

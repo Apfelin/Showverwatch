@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_sortname"
+        android:title="@string/sort_name"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_sortvoteavg"
+        android:title="@string/sort_vote_avg"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_sortlatest"
+        android:title="@string/sort_last_air"
+        app:showAsAction="never"/>
+</menu>
