@@ -3,7 +3,11 @@
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="button_login">Log In</string>
-    <string name="button_signup">Sign Up</string>
+    <string name="signup_prompt">Don\'t have an account?</string>
+
+    <!-- signup screen strings -->
+    <string name="signup_confirm">Sign up</string>
+    <string name="password_confirm">Confirm password</string>
 
     <!-- tvlist strings -->
     <string name="tvlist_activity_name">TVListActivity</string>

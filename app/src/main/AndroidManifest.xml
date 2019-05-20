@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="upb.tvtrack">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -16,21 +15,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".TVListActivity"
-            android:theme="@style/Theme.TVTrack" >
+            android:name=".SignupActivity"
+            android:theme="@style/Theme.TVTrack">
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.TVTrack">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".TVListActivity"
+            android:theme="@style/Theme.TVTrack"></activity>
+        <activity
             android:name=".AddTVActivity"
-            android:theme="@style/Theme.TVTrack"
+            android:launchMode="singleTop"
             android:parentActivityName=".TVListActivity"
-            android:launchMode="singleTop" >
+            android:theme="@style/Theme.TVTrack">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
